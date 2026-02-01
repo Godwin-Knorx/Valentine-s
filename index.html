@@ -80,10 +80,10 @@
 </head>
 <body>
 
-  <!-- Background romantic music -->
-  <audio id="bgMusic" src="romantic.mp3" loop></audio>
+  <!-- Romantic background music -->
+  <audio id="bgMusic" src="romantic.mp3" loop autoplay muted></audio>
 
-  <!-- Celebration music -->
+  <!-- Celebration sound -->
   <audio id="celebrateMusic" src="celebration.mp3"></audio>
 
   <div class="container">
@@ -112,19 +112,23 @@
     const celebrateMusic = document.getElementById("celebrateMusic");
 
     let drift = 0;
+    let musicUnlocked = false;
 
     function driftAway() {
-      drift += 80;
+      drift += 70;
       const direction = Math.random() > 0.5 ? 1 : -1;
       noBtn.style.transform = `translateX(${drift * direction}px)`;
     }
 
     noBtn.addEventListener("mouseenter", driftAway);
 
-    // Browser requires user interaction before audio plays
-    document.body.addEventListener("click", () => {
-      bgMusic.volume = 0.4;
-      bgMusic.play();
+    // Unmute romantic music on first interaction
+    document.addEventListener("mousemove", () => {
+      if (!musicUnlocked) {
+        bgMusic.muted = false;
+        bgMusic.volume = 0.4;
+        musicUnlocked = true;
+      }
     }, { once: true });
 
     yesBtn.addEventListener("click", () => {
